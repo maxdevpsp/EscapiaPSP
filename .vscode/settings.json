@@ -1,0 +1,7 @@
+{
+    "Lua.workspace.library": [
+        "${addons}/LuaPlayerYT/module/library"
+    ],
+    "Lua.runtime.version": "Lua 5.1",
+    "Lua.workspace.checkThirdParty": false
+}
