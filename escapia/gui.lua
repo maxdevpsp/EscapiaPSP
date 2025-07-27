@@ -70,7 +70,7 @@ function GUI.draw()
     end
     if dialogueText ~= "" then 
         Image.draweasy(img_dialoguebox, 26, 0)
-        intraFont.print(50, 6, dialogueText, WHITE, GAME_FONT, 0.95)
+        intraFont.print(240, 6, dialogueText, WHITE, GAME_FONT, 0.95, 0, intraFont.ALIGN_CENTER)
     end
 end
 

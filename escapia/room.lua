@@ -1,10 +1,10 @@
 
 -- Getting the required section
-local section = require(GAME_PATH .. "sections/1")
+local section = require(GAME_PATH .. "sections/" .. PROJECT.STARTING_SECTION)
 -- Getting the special script
 local special = require(GAME_PATH .. "special")
 -- The room ID is set in the config file (TODO)
-local ROOM_ID = 1
+local ROOM_ID = PROJECT.STARTING_ROOM_ID
 
 -- Functions definition
 local draweasy = Image.draweasy

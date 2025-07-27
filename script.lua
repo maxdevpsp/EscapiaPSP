@@ -1,16 +1,29 @@
 GAME_PATH = "mods/inverse/"
 
 GUI = require("escapia/gui")
-LANG = require(GAME_PATH .. "assets/lang/en")
+LANG = {}
+
+PROJECT = {}
 
 CONFIG = require("config")
 
 red = Color.new(255, 0, 0)
 green = Color.new(0, 255, 0)
 WHITE = Color.new(255, 255, 255)
+WHITE_SEMI = Color.new(255, 255, 255, 125)
 BLACK = Color.new(0, 0, 0)
 
+FRAME = {ISESC = true, ID = "menu"}
+
 while true do
-    dofile("escapia/room.lua")
+    if FRAME.ISESC then
+        if FRAME.ID == "room" then
+            PROJECT = require(GAME_PATH .. "project")
+            LANG = require(GAME_PATH .. "assets/lang/en")
+        end
+        dofile("escapia/" .. FRAME.ID .. ".lua")
+    else
+        dofile(GAME_PATH .. FRAME.ID .. ".lua")
+    end
     System.GC()
 end
