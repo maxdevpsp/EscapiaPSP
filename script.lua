@@ -1,6 +1,7 @@
 GAME_PATH = "mods/inverse/"
 
 GUI = require("escapia/gui")
+CORE = require("escapia/core")
 LANG = {}
 
 PROJECT = {}

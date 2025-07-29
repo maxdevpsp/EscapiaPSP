@@ -15,6 +15,7 @@ local currentRoom = section.rooms[ROOM_ID]
 local currentImg = nil
 -- The image buffer which holds all images with load = 1
 local IMGBUFFER = {}
+local cursorPos = {x = PROJECT.GUI_CURSOR.PROPERTIES.X, y = PROJECT.GUI_CURSOR.PROPERTIES.Y}
 
 local colliding = false
 
@@ -60,7 +61,7 @@ local function updateRoom()
     -- Showing the indicators and checking button input
     for i = 1, 4 do
         if currentRoom.canMove[i] ~= nil then
-           draweasy(directionPointers[i].img, directionPointers[i].x, directionPointers[i].y)
+           draweasy(pointIMG[i], PROJECT.GUI_POINTERS[i].X, PROJECT.GUI_POINTERS[i].Y)
         if buttons.pressed(buttons[CONTROLS[i]]) then switchRoom(currentRoom.canMove[i]) end 
         end
     end
@@ -72,21 +73,21 @@ local function updateRoom()
 end
 
 -- Collisions handling
-local function handleCollisions()
+local function handleCollisions(hitbox)
     for i = 1, #currentRoom.interact do
         -- Getting the rectangle for collision
         local curInteract = currentRoom.interact[i]
         -- If such collision exists, proceed
         if curInteract ~= nil then
             -- Typical box collision
-            colliding = ((cursorObj.x + cursorHitbox.x)  < curInteract.x + curInteract.w and
-            (cursorObj.x + cursorHitbox.x) + cursorHitbox.w > curInteract.x and
-            (cursorObj.y + cursorHitbox.y) < curInteract.y + curInteract.h and
-            (cursorObj.y + cursorHitbox.y) + cursorHitbox.h > curInteract.y)
+            colliding = ((cursorPos.x + hitbox.X)  < curInteract.x + curInteract.w and
+            (cursorPos.x + hitbox.X) + hitbox.W > curInteract.x and
+            (cursorPos.y + hitbox.Y) < curInteract.y + curInteract.h and
+            (cursorPos.y + hitbox.Y) + hitbox.H > curInteract.y)
             if colliding then
                 -- DEBUG ONLY!
                 if CONFIG.DEBUG_MODE then
-                    LUA.print(0, 0, "Colliding!")
+                    LUA.print(0, 20, "Colliding!")
                 end
                 -- Action on collision
                 if buttons.pressed(buttons.cross) then
@@ -124,12 +125,12 @@ while true do
     if CONFIG.DEBUG_MODE then
         LUA.print(0, 0, LUA.getRAM())
     end
-    handleCollisions()
+    handleCollisions(PROJECT.GUI_CURSOR.HITBOX)
 
     special.draw(ROOM_ID)
 
-    GUI.update()
-    GUI.draw()
+    GUI.update(cursorPos, PROJECT.GUI_CURSOR.HITBOX)
+    GUI.draw(cursorPos, PROJECT.GUI_CURSOR.HITBOX)
 
     screen.flip()
 end

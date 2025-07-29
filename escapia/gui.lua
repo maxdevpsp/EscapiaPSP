@@ -1,31 +1,13 @@
 GUI = {}
 
 function GUI.init()
-    img_cursor = Image.load(GAME_PATH .. "assets/png/gui/cursor.png")
-    img_dialoguebox = Image.load(GAME_PATH .. "assets/png/gui/messageBoardBack.png")
+    img_cursor = Image.load(GAME_PATH .. PROJECT.GUI_CURSOR.IMG)
+    img_dialoguebox = Image.load(GAME_PATH .. PROJECT.GUI_DIALOGUE.IMG)
 
-    directionPointers = {
-        {
-            img = Image.load(GAME_PATH .. 'assets/png/gui/left.png'),
-            x = 0, 
-            y = 110
-        },
-        {
-            img = Image.load(GAME_PATH .. 'assets/png/gui/back.png'),
-            x = 325, 
-            y = 210
-        },
-        {
-            img = Image.load(GAME_PATH .. 'assets/png/gui/up.png'),
-            x = 325, 
-            y = 42
-        },
-        {
-            img = Image.load(GAME_PATH .. 'assets/png/gui/right.png'),
-            x = 420, 
-            y = 110
-        }
-    }
+    pointIMG = {}
+    for i = 1, 4 do
+        pointIMG[i] = Image.load(GAME_PATH .. PROJECT.GUI_POINTERS[i].IMG)
+    end
 
     CONTROLS = {
         "l",
@@ -34,42 +16,39 @@ function GUI.init()
         "r"
     }
 
-    SND_SWITCH = sound.cloud(GAME_PATH .. "assets/sfx/click_x.wav", sound.WAV_1)
-    SND_QUIT = sound.cloud(GAME_PATH .. "assets/sfx/error.wav", sound.WAV_2)
-    sound.volume(sound.WAV_1, 50, 50)
-    sound.volume(sound.WAV_2, 50, 50)
+    SND_SWITCH = sound.cloud(GAME_PATH .. PROJECT.SND_SWITCH.SRC, sound.WAV_1)
+    SND_QUIT = sound.cloud(GAME_PATH .. PROJECT.SND_DISCARD.SRC, sound.WAV_2)
+    sound.volume(sound.WAV_1, PROJECT.SND_SWITCH.VOLUME, PROJECT.SND_SWITCH.VOLUME)
+    sound.volume(sound.WAV_2, PROJECT.SND_DISCARD.VOLUME, PROJECT.SND_DISCARD.VOLUME)
 
-    GAME_FONT = intraFont.load(GAME_PATH .. "assets/font.pgf")
-    --intraFont.setStyle(GAME_FONT, 1.5, Color.new(255, 255, 255), 0, intraFont.ALIGN_CENTER)
+    GAME_FONT = intraFont.load(GAME_PATH .. PROJECT.GUI_FONT)
 
-    cursorObj = {x = 30, y = 30, speed = 4, bound = {0, 480, 0, 272}}
-    cursorHitbox = {x = 5, y = 3, w = 11, h = 11}
     dialogueText = ""
 end
 
-function GUI.update()
-    if buttons.Lx() > 120 and (cursorObj.x <= cursorObj.bound[2] - cursorHitbox.w) then
-        cursorObj.x = cursorObj.x + cursorObj.speed
+function GUI.update(cursorPos, hitbox)
+    if buttons.Lx() > 120 and (cursorPos.x <= PROJECT.GUI_CURSOR.PROPERTIES.BOUND[2] - hitbox.W) then
+        cursorPos.x = cursorPos.x + PROJECT.GUI_CURSOR.PROPERTIES.SPEED
     end
-    if buttons.Lx() < -120 and (cursorObj.bound[1] <= cursorObj.x) then
-        cursorObj.x = cursorObj.x - cursorObj.speed
+    if buttons.Lx() < -120 and (PROJECT.GUI_CURSOR.PROPERTIES.BOUND[1] <= cursorPos.x) then
+        cursorPos.x = cursorPos.x - PROJECT.GUI_CURSOR.PROPERTIES.SPEED
     end
-    if buttons.Ly() > 120 and (cursorObj.y <= cursorObj.bound[4] - cursorHitbox.h) then
-        cursorObj.y = cursorObj.y + cursorObj.speed
+    if buttons.Ly() > 120 and (cursorPos.y <= PROJECT.GUI_CURSOR.PROPERTIES.BOUND[4] - hitbox.H) then
+        cursorPos.y = cursorPos.y + PROJECT.GUI_CURSOR.PROPERTIES.SPEED
     end
-    if buttons.Ly() < -120 and (cursorObj.bound[3] <= cursorObj.y) then
-        cursorObj.y = cursorObj.y - cursorObj.speed
+    if buttons.Ly() < -120 and (PROJECT.GUI_CURSOR.PROPERTIES.BOUND[3] <= cursorPos.y) then
+        cursorPos.y = cursorPos.y - PROJECT.GUI_CURSOR.PROPERTIES.SPEED
     end
 end
 
-function GUI.draw()
+function GUI.draw(cursorPos, hitbox)
     -- Your draw code here
-    Image.draweasy(img_cursor, cursorObj.x, cursorObj.y)
+    Image.draweasy(img_cursor, cursorPos.x, cursorPos.y)
     if CONFIG.DEBUG_MODE then
-        screen.filledRect(cursorObj.x + cursorHitbox.x, cursorObj.y + cursorHitbox.y, cursorHitbox.w, cursorHitbox.h, green, 0)
+        screen.filledRect(cursorPos.x + hitbox.X, cursorPos.y + hitbox.Y, hitbox.W, hitbox.H, green, 0)
     end
     if dialogueText ~= "" then 
-        Image.draweasy(img_dialoguebox, 26, 0)
+        Image.draweasy(img_dialoguebox, PROJECT.GUI_DIALOGUE.PROPERTIES.X, PROJECT.GUI_DIALOGUE.PROPERTIES.Y)
         intraFont.print(240, 6, dialogueText, WHITE, GAME_FONT, 0.95, 0, intraFont.ALIGN_CENTER)
     end
 end
