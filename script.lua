@@ -20,7 +20,7 @@ while true do
     if FRAME.ISESC then
         if FRAME.ID == "room" then
             PROJECT = require(GAME_PATH .. "project")
-            LANG = require(GAME_PATH .. "assets/lang/en")
+            LANG = require(GAME_PATH .. PROJECT.LANG[CONFIG.LANGUAGE])
         end
         dofile("escapia/" .. FRAME.ID .. ".lua")
     else

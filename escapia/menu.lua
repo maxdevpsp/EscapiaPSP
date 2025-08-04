@@ -78,7 +78,7 @@ while true do
         end
 
         intraFont.print(224, 24, LISTED_MODS[SELECT_INDEX].NAME, WHITE, TAHOMA_BD_18)
-        intraFont.print(224, 24 + 24, "by " .. LISTED_MODS[SELECT_INDEX].AUTHOR, WHITE_SEMI, TAHOMA_BD_14)
+        intraFont.print(224, 24 + 24, "by " .. LISTED_MODS[SELECT_INDEX].AUTHOR, WHITE, TAHOMA_BD_14)
         intraFont.print(224, 24 + 52, LISTED_MODS[SELECT_INDEX].DESCRIPTION, WHITE, TAHOMA_12)
 
         MENUGLOW_ALPHA = 150 + math.sin(time * 0.75) * 105

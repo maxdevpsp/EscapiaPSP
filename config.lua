@@ -1,5 +1,6 @@
 return {
     -- Debug Mode: allows to see the interaction hitboxes as well as debug values and free RAM
     DEBUG_MODE = true,
-    MODS_FOLDER = "mods"
+    MODS_FOLDER = "mods",
+    LANGUAGE = "en"
 }
